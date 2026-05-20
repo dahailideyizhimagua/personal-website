@@ -1,0 +1,92 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import SectionTitle from '../components/shared/SectionTitle.astro';
+import GridBackground from '../components/layout/GridBackground.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+
+interface ShowcaseItem {
+  title: string;
+  description: string;
+  platform: string;
+  platformIcon: string;
+  url: string;
+  type: 'video' | 'image' | 'link';
+  thumbnail?: string;
+  embedId?: string;
+}
+
+const showcaseItems: ShowcaseItem[] = [
+  {
+    title: '基于 UE 制作的建筑可视化交互',
+    description: '使用 Unreal Engine 制作的建筑可视化项目，实现实时交互式漫游与材质切换。',
+    platform: '哔哩哔哩',
+    platformIcon: 'bilibili',
+    url: 'https://www.bilibili.com/video/BV12f421Z7dL/',
+    type: 'video',
+    embedId: 'BV12f421Z7dL',
+  },
+];
+---
+
+<PageLayout title="成果展示 | 大海里的麻瓜" description="作品成果与项目展示">
+  <GridBackground class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <SectionTitle number="04" label="Showcase" title="成果展示" />
+
+      <p class="text-text-secondary mb-12 max-w-2xl">
+        汇集我在建筑设计、可视化、开发等领域的作品成果，涵盖视频演示、交互项目等多种形式。
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        {showcaseItems.map((item) => (
+          <div class="card blueprint-corners group">
+            {/* Video embed */}
+            {item.type === 'video' && item.embedId && (
+              <div class="aspect-video mb-4 bg-bg-tertiary overflow-hidden">
+                <iframe
+                  src={`//player.bilibili.com/player.html?bvid=${item.embedId}&autoplay=0`}
+                  class="w-full h-full"
+                  scrolling="no"
+                  frameborder="0"
+                  allowfullscreen={true}
+                  loading="lazy"
+                />
+              </div>
+            )}
+
+            {/* Platform badge + title */}
+            <div class="flex items-center gap-3 mb-3">
+              {item.platformIcon === 'bilibili' ? (
+                <span class="font-mono text-xs px-2 py-0.5 bg-pink-500/10 text-pink-500 border border-pink-500/30">
+                  {item.platform}
+                </span>
+              ) : (
+                <span class="font-mono text-xs px-2 py-0.5 bg-accent-blue/10 text-accent-blue">
+                  {item.platform}
+                </span>
+              )}
+            </div>
+
+            <h3 class="font-serif text-xl text-text-primary mb-2 group-hover:text-accent-blue transition-colors">
+              {item.title}
+            </h3>
+            <p class="text-sm text-text-secondary mb-4">{item.description}</p>
+
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 font-mono text-xs text-accent-blue hover:underline"
+            >
+              查看原作品
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 9L9 3M9 3H4M9 3V8" />
+              </svg>
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </GridBackground>
+</PageLayout>
