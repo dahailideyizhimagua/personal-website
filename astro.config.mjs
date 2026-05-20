@@ -3,7 +3,8 @@ import tailwind from '@astrojs/tailwind';
 import vue from '@astrojs/vue';
 
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://dahailideyizhimagua.github.io',
+  base: '/personal-website',
   integrations: [
     tailwind(),
     vue(),
