@@ -17,7 +17,7 @@ interface Props {
 const { project } = Astro.props;
 const { Content } = await project.render();
 const { title, description, year, role, tech, github, live, heroImage } = project.data;
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const categoryLabels: Record<string, string> = {
   web: 'Web 应用',
