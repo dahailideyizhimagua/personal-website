@@ -5,6 +5,9 @@ import vue from '@astrojs/vue';
 export default defineConfig({
   site: 'https://dahailideyizhimagua.github.io',
   base: '/personal-website',
+  build: {
+    assets: 'assets',
+  },
   integrations: [
     tailwind(),
     vue(),
