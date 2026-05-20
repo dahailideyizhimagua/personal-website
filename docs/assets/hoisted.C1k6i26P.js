@@ -1,0 +1,1 @@
+window.addEventListener("pageshow",e=>{e.persisted&&window.location.reload()});const n=document.getElementById("mobile-menu-btn"),t=document.getElementById("mobile-menu");n?.addEventListener("click",()=>{t?.classList.toggle("hidden")});

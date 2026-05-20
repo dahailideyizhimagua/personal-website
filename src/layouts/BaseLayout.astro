@@ -18,5 +18,11 @@ const { title, description, image } = Astro.props;
   </head>
   <body class="min-h-screen flex flex-col">
     <slot />
+    <script>
+      // Reload when page is restored from browser back-forward cache
+      window.addEventListener('pageshow', (e) => {
+        if (e.persisted) window.location.reload();
+      });
+    </script>
   </body>
 </html>
