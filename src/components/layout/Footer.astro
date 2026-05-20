@@ -1,5 +1,6 @@
 ---
 const year = new Date().getFullYear();
+const base = import.meta.env.BASE_URL;
 ---
 
 <footer class="border-t border-border bg-bg-secondary">
@@ -17,10 +18,10 @@ const year = new Date().getFullYear();
       <div>
         <p class="font-mono text-xs uppercase tracking-wider text-text-tertiary mb-4">导航</p>
         <ul class="space-y-2">
-          <li><a href="/projects" class="text-sm text-text-secondary hover:text-accent-blue transition-colors">项目</a></li>
-          <li><a href="/blog" class="text-sm text-text-secondary hover:text-accent-blue transition-colors">博客</a></li>
-          <li><a href="/about" class="text-sm text-text-secondary hover:text-accent-blue transition-colors">关于</a></li>
-          <li><a href="/contact" class="text-sm text-text-secondary hover:text-accent-blue transition-colors">联系</a></li>
+          <li><a href={`${base}projects/`} class="text-sm text-text-secondary hover:text-accent-blue transition-colors">项目</a></li>
+          <li><a href={`${base}blog/`} class="text-sm text-text-secondary hover:text-accent-blue transition-colors">博客</a></li>
+          <li><a href={`${base}about/`} class="text-sm text-text-secondary hover:text-accent-blue transition-colors">关于</a></li>
+          <li><a href={`${base}contact/`} class="text-sm text-text-secondary hover:text-accent-blue transition-colors">联系</a></li>
         </ul>
       </div>
 

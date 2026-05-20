@@ -17,6 +17,7 @@ interface Props {
 const { post } = Astro.props;
 const { Content } = await post.render();
 const { title, description, pubDate, category, tags } = post.data;
+const base = import.meta.env.BASE_URL;
 
 const categoryLabels: Record<string, string> = {
   webcad: 'WebCAD',
@@ -31,7 +32,7 @@ const categoryLabels: Record<string, string> = {
   <article class="py-20">
     <div class="max-w-3xl mx-auto px-6">
       {/* Back link */}
-      <a href="/blog" class="inline-flex items-center gap-2 font-mono text-sm text-text-secondary hover:text-accent-blue transition-colors mb-8">
+      <a href={`${base}blog/`} class="inline-flex items-center gap-2 font-mono text-sm text-text-secondary hover:text-accent-blue transition-colors mb-8">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M10 3L5 8L10 13" />
         </svg>
@@ -66,7 +67,7 @@ const categoryLabels: Record<string, string> = {
 
       {/* Footer */}
       <footer class="mt-16 pt-8 border-t border-border">
-        <a href="/blog" class="btn-secondary">
+        <a href={`${base}blog/`} class="btn-secondary">
           返回博客列表
         </a>
       </footer>

@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
 import SectionTitle from '../../components/shared/SectionTitle.astro';
 
+const base = import.meta.env.BASE_URL;
 const projects = (await getCollection('projects'))
   .sort((a, b) => a.data.order - b.data.order);
 
@@ -35,7 +36,7 @@ const categoryLabels: Record<string, string> = {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="project-grid">
         {projects.map(({ slug, data: { title, description, tech, category, heroImage, year } }) => (
           <a
-            href={`/projects/${slug}`}
+            href={`${base}projects/${slug}/`}
             class="card blueprint-corners group"
             data-category={category}
           >
