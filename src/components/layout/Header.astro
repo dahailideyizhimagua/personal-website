@@ -1,0 +1,78 @@
+---
+const navLinks = [
+  { href: '/', label: '首页' },
+  { href: '/about', label: '关于' },
+  { href: '/projects', label: '项目' },
+  { href: '/blog', label: '博客' },
+  { href: '/contact', label: '联系' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-bg-primary/90 backdrop-blur-sm border-b border-border">
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="font-serif text-xl text-text-primary hover:text-accent-blue transition-colors">
+      Portfolio
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8">
+      {navLinks.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[
+              'font-sans text-sm uppercase tracking-wider transition-colors relative',
+              currentPath === href || (href !== '/' && currentPath.startsWith(href))
+                ? 'text-accent-blue'
+                : 'text-text-secondary hover:text-text-primary',
+            ]}
+          >
+            {label}
+            {(currentPath === href || (href !== '/' && currentPath.startsWith(href))) && (
+              <span class="absolute -bottom-1 left-0 right-0 h-px bg-accent-blue" />
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    {/* Mobile menu button */}
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden w-8 h-8 flex flex-col items-center justify-center gap-1.5"
+      aria-label="Toggle menu"
+    >
+      <span class="w-5 h-px bg-text-primary transition-transform" />
+      <span class="w-5 h-px bg-text-primary transition-opacity" />
+      <span class="w-5 h-px bg-text-primary transition-transform" />
+    </button>
+  </nav>
+
+  {/* Mobile menu */}
+  <div id="mobile-menu" class="hidden md:hidden bg-bg-primary border-b border-border">
+    <ul class="px-6 py-4 space-y-3">
+      {navLinks.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[
+              'block font-sans text-sm uppercase tracking-wider py-2',
+              currentPath === href ? 'text-accent-blue' : 'text-text-secondary',
+            ]}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+</script>

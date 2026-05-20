@@ -1,0 +1,120 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const { title, description, pubDate, category, tags } = post.data;
+
+const categoryLabels: Record<string, string> = {
+  webcad: 'WebCAD',
+  architecture: '建筑',
+  frontend: '前端',
+  devops: 'DevOps',
+  tutorial: '教程',
+};
+---
+
+<PageLayout title={`${title} | Blog`} description={description}>
+  <article class="py-20">
+    <div class="max-w-3xl mx-auto px-6">
+      {/* Back link */}
+      <a href="/blog" class="inline-flex items-center gap-2 font-mono text-sm text-text-secondary hover:text-accent-blue transition-colors mb-8">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M10 3L5 8L10 13" />
+        </svg>
+        返回博客列表
+      </a>
+
+      {/* Header */}
+      <header class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs px-2 py-0.5 bg-accent-blue/10 text-accent-blue">
+            {categoryLabels[category] || category}
+          </span>
+          <time class="font-mono text-xs text-text-tertiary" datetime={pubDate.toISOString()}>
+            {pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+        </div>
+
+        <h1 class="font-serif text-4xl md:text-5xl text-text-primary mb-4">{title}</h1>
+        <p class="text-lg text-text-secondary">{description}</p>
+
+        <div class="flex flex-wrap gap-2 mt-6">
+          {tags.map(tag => (
+            <span class="font-mono text-xs px-3 py-1 border border-grid-line text-text-tertiary">#{tag}</span>
+          ))}
+        </div>
+      </header>
+
+      {/* Content */}
+      <div class="prose prose-lg max-w-none">
+        <Content />
+      </div>
+
+      {/* Footer */}
+      <footer class="mt-16 pt-8 border-t border-border">
+        <a href="/blog" class="btn-secondary">
+          返回博客列表
+        </a>
+      </footer>
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .prose :global(h2) {
+    @apply font-serif text-2xl text-text-primary mt-12 mb-4;
+  }
+  .prose :global(h3) {
+    @apply font-serif text-xl text-text-primary mt-8 mb-3;
+  }
+  .prose :global(p) {
+    @apply text-text-secondary leading-relaxed mb-4;
+  }
+  .prose :global(ul), .prose :global(ol) {
+    @apply text-text-secondary mb-4 pl-6;
+  }
+  .prose :global(li) {
+    @apply mb-1;
+  }
+  .prose :global(code) {
+    @apply font-mono text-sm bg-bg-secondary px-1.5 py-0.5 text-accent-red;
+  }
+  .prose :global(pre) {
+    @apply bg-bg-secondary border border-border p-4 overflow-x-auto mb-6;
+  }
+  .prose :global(pre code) {
+    @apply bg-transparent p-0 text-text-primary;
+  }
+  .prose :global(table) {
+    @apply w-full border-collapse mb-6;
+  }
+  .prose :global(th), .prose :global(td) {
+    @apply border border-border px-4 py-2 text-sm text-left;
+  }
+  .prose :global(th) {
+    @apply bg-bg-secondary font-mono text-xs uppercase tracking-wider text-text-tertiary;
+  }
+  .prose :global(blockquote) {
+    @apply border-l-4 border-accent-blue pl-4 italic text-text-secondary my-6;
+  }
+  .prose :global(strong) {
+    @apply text-text-primary font-semibold;
+  }
+  .prose :global(a) {
+    @apply text-accent-blue underline underline-offset-2 hover:text-accent-blue/80;
+  }
+</style>

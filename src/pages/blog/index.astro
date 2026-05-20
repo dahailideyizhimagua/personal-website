@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import SectionTitle from '../../components/shared/SectionTitle.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const categoryLabels: Record<string, string> = {
+  webcad: 'WebCAD',
+  architecture: '建筑',
+  frontend: '前端',
+  devops: 'DevOps',
+  tutorial: '教程',
+};
+---
+
+<PageLayout title="博客 | Portfolio" description="技术博客与笔记">
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+      <SectionTitle number="02" label="Workshop Notes" title="技术博客" />
+
+      <div class="space-y-8">
+        {posts.map(({ slug, data: { title, description, pubDate, category, tags } }) => (
+          <a href={`/blog/${slug}`} class="card blueprint-corners group block">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="font-mono text-xs px-2 py-0.5 bg-accent-blue/10 text-accent-blue">
+                {categoryLabels[category] || category}
+              </span>
+              <time class="font-mono text-xs text-text-tertiary" datetime={pubDate.toISOString()}>
+                {pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+              </time>
+            </div>
+
+            <h3 class="font-serif text-2xl text-text-primary mb-2 group-hover:text-accent-blue transition-colors">
+              {title}
+            </h3>
+            <p class="text-text-secondary mb-4">{description}</p>
+
+            <div class="flex flex-wrap gap-2">
+              {tags.map(tag => (
+                <span class="font-mono text-xs text-text-tertiary">#{tag}</span>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</PageLayout>

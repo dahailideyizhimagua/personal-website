@@ -1,0 +1,125 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import SectionTitle from '../components/shared/SectionTitle.astro';
+import GridBackground from '../components/layout/GridBackground.astro';
+
+const skills = {
+  '前端开发': ['Vue 3', 'Nuxt 4', 'TypeScript', 'React', 'Tailwind CSS', 'Three.js'],
+  '后端开发': ['Node.js', 'Express', 'Python', 'PostgreSQL', 'MongoDB', 'Redis'],
+  'CAD/BIM': ['AutoCAD', 'Revit', 'SketchUp', 'Rhino', 'IFC', 'Grasshopper'],
+  '设计工具': ['Figma', 'Blender', 'Photoshop', 'Illustrator'],
+};
+
+const tools = [
+  'Nuxt', 'Vue', 'TypeScript', 'JavaScript', 'Node.js',
+  'AutoCAD', 'Revit', 'SketchUp', 'Blender', 'Three.js',
+  'Docker', 'Git', 'VS Code', 'Figma', 'Linux',
+];
+
+const timeline = [
+  { year: '2026', title: 'WebCAD 协同设计系统', desc: '独立开发离线优先的 CAD 协同设计平台，集成 P2P 实时协作能力。' },
+  { year: '2025', title: 'BIM 模型浏览器', desc: '开发基于 Web 的 BIM 模型查看器，支持 IFC 格式解析与三维渲染。' },
+  { year: '2024', title: '参数化设计工具', desc: '构建基于节点编辑器的参数化建筑设计工具。' },
+  { year: '2023', title: '全栈开发学习', desc: '系统学习前端框架与后端技术，开始将编程与建筑工程结合。' },
+];
+---
+
+<PageLayout title="关于 | Portfolio" description="关于我">
+  {/* Hero */}
+  <GridBackground class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        {/* Avatar */}
+        <div class="flex justify-center">
+          <div class="w-64 h-64 bg-bg-tertiary border border-border blueprint-corners flex items-center justify-center">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" stroke="#B8B5AF" stroke-width="1">
+              <circle cx="40" cy="28" r="12" />
+              <path d="M15 70 Q15 45 40 45 Q65 45 65 70" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Intro */}
+        <div>
+          <p class="font-mono text-sm text-accent-blue tracking-wider mb-4">ABOUT ME</p>
+          <h1 class="font-serif text-4xl md:text-5xl text-text-primary mb-6">
+            建筑工程 ×<br/>全栈开发
+          </h1>
+          <div class="space-y-4 text-text-secondary">
+            <p>
+              我是一名同时热爱建筑工程与软件开发的跨界实践者。
+              在建筑领域，我熟悉 CAD/BIM 工作流程；
+              在技术领域，我专注于用现代 Web 技术解决建筑行业的实际问题。
+            </p>
+            <p>
+              目前正在开发 WebCAD —— 一个离线优先的协同设计平台，
+              让建筑工程团队能够在任何网络环境下高效协作。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </GridBackground>
+
+  {/* Skills */}
+  <section class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <SectionTitle number="01" label="Capabilities" title="技能" />
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {Object.entries(skills).map(([category, items]) => (
+          <div class="p-6 border border-border">
+            <h3 class="font-mono text-xs uppercase tracking-wider text-accent-blue mb-4">{category}</h3>
+            <div class="flex flex-wrap gap-2">
+              {items.map(skill => (
+                <span class="font-mono text-sm px-3 py-1.5 bg-bg-secondary border border-grid-line text-text-primary">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Tools */}
+  <section class="py-20 bg-bg-secondary">
+    <div class="max-w-6xl mx-auto px-6">
+      <SectionTitle number="02" label="Toolkit" title="工具" />
+
+      <div class="grid grid-cols-3 md:grid-cols-5 gap-4">
+        {tools.map(tool => (
+          <div class="p-4 bg-white border border-border text-center hover:border-accent-blue transition-colors">
+            <p class="font-mono text-sm text-text-primary">{tool}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Timeline */}
+  <section class="py-20">
+    <div class="max-w-3xl mx-auto px-6">
+      <SectionTitle number="03" label="Experience" title="经历" />
+
+      <div class="relative">
+        {/* Timeline line */}
+        <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-grid-strong -translate-x-1/2" />
+
+        {timeline.map((item, i) => (
+          <div class:list={['relative mb-12', i % 2 === 0 ? 'md:pr-1/2' : 'md:pl-1/2']}>
+            {/* Dot */}
+            <div class="absolute left-0 md:left-1/2 top-1 w-3 h-3 border-2 border-accent-blue bg-bg-primary rounded-full -translate-x-1/2 z-10" />
+
+            <div class:list={['pl-8 md:pl-0', i % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12']}>
+              <p class="font-mono text-sm text-accent-blue mb-1">{item.year}</p>
+              <h3 class="font-serif text-xl text-text-primary mb-2">{item.title}</h3>
+              <p class="text-sm text-text-secondary">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</PageLayout>

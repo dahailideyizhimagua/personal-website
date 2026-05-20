@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import SectionTitle from '../shared/SectionTitle.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const categoryLabels: Record<string, string> = {
+  webcad: 'WebCAD',
+  architecture: '建筑',
+  frontend: '前端',
+  devops: 'DevOps',
+  tutorial: '教程',
+};
+---
+
+<section class="py-20 bg-bg-secondary">
+  <div class="max-w-6xl mx-auto px-6">
+    <SectionTitle number="02" label="Workshop Notes" title="最新博文" />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {posts.map(({ slug, data: { title, description, pubDate, category, tags } }) => (
+        <a href={`/blog/${slug}`} class="card blueprint-corners group">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="font-mono text-xs px-2 py-0.5 bg-accent-blue/10 text-accent-blue">
+              {categoryLabels[category] || category}
+            </span>
+            <time class="font-mono text-xs text-text-tertiary" datetime={pubDate.toISOString()}>
+              {pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+            </time>
+          </div>
+
+          <h3 class="font-serif text-xl text-text-primary mb-2 group-hover:text-accent-blue transition-colors">
+            {title}
+          </h3>
+          <p class="text-sm text-text-secondary line-clamp-3">{description}</p>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            {tags.slice(0, 3).map(tag => (
+              <span class="font-mono text-xs text-text-tertiary">#{tag}</span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-12 text-center">
+      <a href="/blog" class="btn-secondary">
+        阅读全部博文
+      </a>
+    </div>
+  </div>
+</section>

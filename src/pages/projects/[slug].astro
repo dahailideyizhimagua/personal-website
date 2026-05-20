@@ -1,0 +1,141 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+const { title, description, year, role, tech, github, live, heroImage } = project.data;
+
+const categoryLabels: Record<string, string> = {
+  web: 'Web 应用',
+  cad: 'CAD 工具',
+  opensource: '开源',
+  design: '设计',
+};
+---
+
+<PageLayout title={`${title} | Portfolio`} description={description}>
+  <article class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+      {/* Back link */}
+      <a href="/projects" class="inline-flex items-center gap-2 font-mono text-sm text-text-secondary hover:text-accent-blue transition-colors mb-8">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M10 3L5 8L10 13" />
+        </svg>
+        返回项目列表
+      </a>
+
+      {/* Hero */}
+      <div class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs px-2 py-0.5 bg-accent-blue/10 text-accent-blue">
+            {categoryLabels[project.data.category] || project.data.category}
+          </span>
+          <span class="font-mono text-xs text-text-tertiary">{year}</span>
+        </div>
+
+        <h1 class="font-serif text-4xl md:text-5xl text-text-primary mb-4">{title}</h1>
+        <p class="text-lg text-text-secondary">{description}</p>
+      </div>
+
+      {/* Hero image */}
+      {heroImage && (
+        <div class="aspect-[21/9] bg-bg-tertiary mb-12 overflow-hidden blueprint-corners">
+          <img src={heroImage} alt={title} class="w-full h-full object-cover" />
+        </div>
+      )}
+
+      {/* Meta info */}
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 p-6 bg-bg-secondary border border-border">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-wider text-text-tertiary mb-1">角色</p>
+          <p class="text-sm text-text-primary">{role}</p>
+        </div>
+        <div>
+          <p class="font-mono text-xs uppercase tracking-wider text-text-tertiary mb-1">年份</p>
+          <p class="text-sm text-text-primary">{year}</p>
+        </div>
+        <div>
+          <p class="font-mono text-xs uppercase tracking-wider text-text-tertiary mb-1">技术栈</p>
+          <div class="flex flex-wrap gap-2 mt-1">
+            {tech.map(t => (
+              <span class="font-mono text-xs px-2 py-0.5 border border-grid-line text-text-tertiary">{t}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Links */}
+      {(github || live) && (
+        <div class="flex gap-4 mb-12">
+          {github && (
+            <a href={github} target="_blank" rel="noopener" class="btn-secondary">
+              GitHub
+            </a>
+          )}
+          {live && (
+            <a href={live} target="_blank" rel="noopener" class="btn-primary">
+              在线演示
+            </a>
+          )}
+        </div>
+      )}
+
+      {/* Content */}
+      <div class="prose prose-lg max-w-none">
+        <Content />
+      </div>
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .prose :global(h2) {
+    @apply font-serif text-2xl text-text-primary mt-12 mb-4;
+  }
+  .prose :global(h3) {
+    @apply font-serif text-xl text-text-primary mt-8 mb-3;
+  }
+  .prose :global(p) {
+    @apply text-text-secondary leading-relaxed mb-4;
+  }
+  .prose :global(ul), .prose :global(ol) {
+    @apply text-text-secondary mb-4 pl-6;
+  }
+  .prose :global(li) {
+    @apply mb-1;
+  }
+  .prose :global(code) {
+    @apply font-mono text-sm bg-bg-secondary px-1.5 py-0.5 text-accent-red;
+  }
+  .prose :global(pre) {
+    @apply bg-bg-secondary border border-border p-4 overflow-x-auto mb-6;
+  }
+  .prose :global(pre code) {
+    @apply bg-transparent p-0 text-text-primary;
+  }
+  .prose :global(table) {
+    @apply w-full border-collapse mb-6;
+  }
+  .prose :global(th), .prose :global(td) {
+    @apply border border-border px-4 py-2 text-sm text-left;
+  }
+  .prose :global(th) {
+    @apply bg-bg-secondary font-mono text-xs uppercase tracking-wider text-text-tertiary;
+  }
+  .prose :global(blockquote) {
+    @apply border-l-4 border-accent-blue pl-4 italic text-text-secondary my-6;
+  }
+</style>

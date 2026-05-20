@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import SectionTitle from '../shared/SectionTitle.astro';
+
+const projects = (await getCollection('projects'))
+  .filter(p => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+---
+
+<section class="py-20">
+  <div class="max-w-6xl mx-auto px-6">
+    <SectionTitle number="01" label="Selected Works" title="精选项目" />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {projects.map(({ slug, data: { title, description, tech, heroImage } }) => (
+        <a href={`/projects/${slug}`} class="card blueprint-corners group">
+          {/* Image placeholder */}
+          <div class="aspect-[16/10] bg-bg-tertiary mb-4 overflow-hidden">
+            {heroImage ? (
+              <img src={heroImage} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#B8B5AF" stroke-width="1">
+                  <rect x="4" y="4" width="40" height="40" />
+                  <line x1="4" y1="4" x2="44" y2="44" />
+                  <line x1="44" y1="4" x2="4" y2="44" />
+                  <circle cx="24" cy="24" r="8" />
+                </svg>
+              </div>
+            )}
+          </div>
+
+          <h3 class="font-serif text-xl text-text-primary mb-2 group-hover:text-accent-blue transition-colors">
+            {title}
+          </h3>
+          <p class="text-sm text-text-secondary mb-4 line-clamp-2">{description}</p>
+
+          <div class="flex flex-wrap gap-2">
+            {tech.slice(0, 3).map(t => (
+              <span class="font-mono text-xs px-2 py-0.5 border border-grid-line text-text-tertiary">
+                {t}
+              </span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-12 text-center">
+      <a href="/projects" class="btn-secondary">
+        查看全部项目
+      </a>
+    </div>
+  </div>
+</section>

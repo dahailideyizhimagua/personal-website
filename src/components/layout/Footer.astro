@@ -1,0 +1,46 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-bg-secondary">
+  <div class="max-w-6xl mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Brand */}
+      <div>
+        <p class="font-serif text-lg text-text-primary mb-2">Portfolio</p>
+        <p class="text-sm text-text-secondary">
+          建筑工程 × 全栈开发
+        </p>
+      </div>
+
+      {/* Links */}
+      <div>
+        <p class="font-mono text-xs uppercase tracking-wider text-text-tertiary mb-4">导航</p>
+        <ul class="space-y-2">
+          <li><a href="/projects" class="text-sm text-text-secondary hover:text-accent-blue transition-colors">项目</a></li>
+          <li><a href="/blog" class="text-sm text-text-secondary hover:text-accent-blue transition-colors">博客</a></li>
+          <li><a href="/about" class="text-sm text-text-secondary hover:text-accent-blue transition-colors">关于</a></li>
+          <li><a href="/contact" class="text-sm text-text-secondary hover:text-accent-blue transition-colors">联系</a></li>
+        </ul>
+      </div>
+
+      {/* Social */}
+      <div>
+        <p class="font-mono text-xs uppercase tracking-wider text-text-tertiary mb-4">链接</p>
+        <ul class="space-y-2">
+          <li><a href="https://github.com" target="_blank" rel="noopener" class="text-sm text-text-secondary hover:text-accent-blue transition-colors">GitHub</a></li>
+          <li><a href="mailto:hello@example.com" class="text-sm text-text-secondary hover:text-accent-blue transition-colors">Email</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="font-mono text-xs text-text-tertiary">
+        &copy; {year} Portfolio. Built with Astro.
+      </p>
+      <p class="font-mono text-xs text-text-tertiary">
+        SHEET 01 &mdash; SCALE: AS NOTED
+      </p>
+    </div>
+  </div>
+</footer>

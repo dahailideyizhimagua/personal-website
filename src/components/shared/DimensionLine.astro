@@ -1,0 +1,16 @@
+---
+interface Props {
+  value?: string;
+  class?: string;
+}
+
+const { value, class: className = '' } = Astro.props;
+---
+
+<div class:list={['dimension-line my-8', className]}>
+  <span class="absolute left-0 -top-1 w-px h-3 bg-grid-strong" />
+  {value && (
+    <span class="px-3 bg-bg-primary font-mono text-xs text-text-tertiary">{value}</span>
+  )}
+  <span class="absolute right-0 -top-1 w-px h-3 bg-grid-strong" />
+</div>

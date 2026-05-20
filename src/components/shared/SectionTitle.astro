@@ -1,0 +1,21 @@
+---
+interface Props {
+  number?: string;
+  label?: string;
+  title: string;
+  align?: 'left' | 'center';
+}
+
+const { number, label, title, align = 'left' } = Astro.props;
+---
+
+<div class:list={[align === 'center' && 'text-center', 'mb-12']}>
+  {label && (
+    <p class="font-mono text-xs uppercase tracking-widest text-accent-blue mb-3">{label}</p>
+  )}
+  <div class:list={['section-marker', align === 'center' && 'justify-center']}>
+    {number && <span class="section-marker-number">{number}</span>}
+    <span class="section-marker-line" />
+    <h2 class="font-serif text-3xl md:text-4xl text-text-primary">{title}</h2>
+  </div>
+</div>
